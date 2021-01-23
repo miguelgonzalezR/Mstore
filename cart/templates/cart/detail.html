@@ -1,0 +1,160 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}
+  Carrito
+{% endblock %}
+
+{% block content %}
+<style>
+
+.materialert{
+    position: relative;
+    min-width: 150px;
+    padding: 15px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.1s linear;
+    webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.materialert .material-icons{
+    margin-right: 10px;
+}
+.materialert .close-alert{
+    -webkit-appearance: none;
+    border: 0;
+    cursor: pointer;
+    color: inherit;
+    background: 0 0;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .7);
+    filter: alpha(opacity=40);
+    margin-bottom: -5px;
+    position: absolute;
+    top: 16px;
+    right: 5px;
+}
+.materialert.info{
+    background-color: #e50303;
+    color: #fff;
+}
+.materialert.success{
+    background-color: #43a047;
+    color: #fff;
+}
+.materialert.error{
+    background-color: #c62828;
+    color: #fff;
+}
+.materialert.danger{
+    background-color: #c62828;
+    color: #fff;
+}
+.materialert.warning{
+    background-color: #fbc02d;
+    color: #fff;
+}
+</style>
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Lo que llevas</h1>
+      {% if messages %}
+      {% for message in messages%}
+        <div class="materialert info">
+          <div class="material-icons">info_outline</div>
+          Error: {{message}}
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      <table class="table">
+        <thead>
+          <th>Imangen</th>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Emilinar</th>
+          <th>Precio unitario</th>
+          <th>Subtotal</th>
+        </thead>
+        <tbody>
+          {% for item in cart %}
+            {% with product=item.product %}
+              <tr>
+                <td>
+                  <a href="#">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/noimage.jpg' %}{% endif %}" style="width: 120px;" />
+                  </a>
+                </td>
+                <td>{{ product.name }}</td>
+                <td>
+                  <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                    <div class="col s6 m6 l6">
+                      {{ item.update_quantity_form.quantity }}
+                      {{ item.update_quantity_form.update }}
+                    </div>
+                    
+                    <input class="btn btn-default black" type="submit" value="Actualizar">
+                    {% csrf_token %}
+                  </form>
+                </td>
+                <td><a href="{% url 'cart:cart_remove' product.id %}">Quetar del carrito</a></td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.total_price }}</td>
+              </tr>
+            {% endwith %}
+          {% endfor %}
+
+          {% if cart.coupon %}
+            <tr class="subtotal">
+              <td><strong>Subtotal</strong></td>
+              <td colspan="4"></td>
+              <td>${{ cart.get_total_price }}</td>
+            </tr>
+            <tr>
+              <td>
+                <strong>"{{ cart.coupon.code }}" coupon
+                ({{ cart.coupon.code }}% off)</strong>
+              </td>
+              <td colspan="4"></td>
+              <td style="color:#5cb85c; font-size: 20px;">- ${{ cart.get_discount|floatformat:"2" }}</td>
+            </tr>
+          {% endif %}
+          <tr class="total">
+            <td><strong>Total</strong></td>
+            <td colspan="4"></td>
+            <td style="color:#337ab7; font-size: 20px;">${{ cart.get_total_price_after_discount|floatformat:"2" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div><br><br>
+
+      <div class="col-md-4" style="text-align:right;">
+        <a class="btn btn-default indigo darken-4" href="{% url 'shop:product_list' %}">Seguir comprando</a>
+
+        {% if cart.get_total_price_after_discount == 0 %}
+
+        <a><button class="btn btn-primary indigo darken-4" disabled >Pagar</button></a>
+
+        {% else %}
+        <a  href="{% url 'orders:order_create' %} "><button class="btn btn-primary indigo darken-4" >Pagar</button></a>
+
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

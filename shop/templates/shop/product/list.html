@@ -1,0 +1,62 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+      <div class="col-md-3">
+        <h3>Categorias</h3>
+
+        <div class="list-group">
+          <a href="{% url 'shop:product_list' %}" class="waves-effect indigo darken-4 waves-light btn {% if not category %}active{% endif %} ">
+            Todos los productos
+          </a>
+          {% for c in categories %}
+            <a href="{{ c.get_absolute_url }}" class="waves-effect indigo darken-4 waves-light btn {% if category.slug == c.slug %}active{% endif %}">
+              {{ c.name }}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      
+
+      <div class="col-md-9">
+        <h1>{% if category %}{{ category.name }}{% else %}Productos{% endif %}</h1>
+
+        {% for product in products %}
+          <div class="col-sm-6 col-md-6" id="producto">
+           
+                  <div class="col s12 m6">
+                    <div class="card">
+                      <div class="card-image">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/noimage.jpg' %}{% endif %}">
+                        <span class="card-title">{{ product.name }}</span>
+                      </div>
+                      <div class="card-content">
+                        <p>${{ product.price }}</p>
+                      </div>
+                      <div class="card-action">
+                        <a href="{{ product.get_absolute_url }}" style="display:block">Ver mas</a>
+                      </div>
+                    </div>
+                  </div>
+                
+          
+          </div>
+        {% endfor %}
+      </div>
+
+
+
+
+
+
+
+
+  </div>
+
+{% endblock %}

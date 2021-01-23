@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    {% include "menu.html" %}
+    <div class="center">
+        <h3>Detalle del pedido</h3>
+    </div>
+
+  <h1>Numero del pedido:  #{{ order.id }}</h1>
+  <ul class="object-tools">
+  </ul>
+
+  <table>
+    <tr>
+      <th>Fecha en que se realizo en pedido</th>
+      <td>{{ order.created }}</td>
+    </tr>
+    <tr>
+      <th>Nombres del cliente</th>
+      <td>{{ order.first_name }} {{ order.last_name }}</td>
+    </tr>
+    <tr>
+      <th>E-mail</th>
+      <td><a href="mailto:{{ order.email }}">{{ order.email }}</a></td>
+    </tr>
+    <tr>
+      <th>Direccion</th>
+      <td>{{ order.address }}, {{ order.postal_code }} {{ order.city }}</td>
+    </tr>
+    <tr>
+      <th>Total de la compra</th>
+      <td>${{ order.get_total_cost }}</td>
+    </tr>
+    <tr>
+      <th>Estado</th>
+      <td>{{order.paid}}</td>
+    </tr>
+  </table>
+
+  <div class="module">
+    <div class="tabular inline-related last-related">
+      <table>
+        <h2>Detalle de la compra</h2>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio Unitario</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order.items.all %}
+            <tr>
+              <td>{{ item.product.name }}</td>
+              <td class="num">${{ item.price }}</td>
+              <td class="num">{{ item.quantity }}</td>
+              <td class="num">${{ item.get_cost }}</td>
+            </tr>
+          {% endfor %}
+
+          {% if order.coupon %}
+            <tr class="subtotal">
+              <td>Subtotal</td>
+              <td colspan="2"></td>
+              <td>${{ order.get_subtotal }}</td>
+            </tr>
+            <tr>
+              <td>
+                "{{ order.coupon }}" coupon
+                ({{ order.discount }}% off)
+              </td>
+              <td colspan="2"></td>
+              <td>- ${{ order.discount }}</td>
+            </tr>
+          {% endif %}
+
+          <tr class="total">
+            <td colspan="3">
+              Total
+            </td>
+            <td class="num">
+              ${{ order.get_total_cost }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                M.AutoInit();
+            });
+        </script>
+</body>
+</html>

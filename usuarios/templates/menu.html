@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="navbar-fixed">          
+        <nav >
+            <div class="nav-wrapper 1a237e indigo darken-4 center">
+                    <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons white-text">menu</i></a>   
+                     <img src="../../resources/img/logo.png" width="125" alt="" >
+            </div>
+        </nav>
+    </div>
+
+<!-- menu lateral-->
+        <ul id="slide-out" class="sidenav">
+            <li><div class="divider"></div></li>
+            <li><a href="{% url 'shop:home' %}"><i class="material-icons">star</i>Inicio</a></li>
+            <li><div class="divider"></div></li>
+            {% if request.user.is_staff %}
+            <li><a href="{% url 'usuarios:listaus' %}"><i class="material-icons">face</i>Usuarios</a></li>
+            <li><div class="divider"></div></li>
+            {% endif %}
+
+            <li><a href="{% url 'shop:Categorias' %}"><i class="material-icons">view_list</i>Categorias</a></li>
+            <li><div class="divider"></div></li>
+
+            <li><a href="{% url 'shop:Productos' %}"><i class="material-icons">store</i>Productos</a></li>
+            <li><div class="divider"></div></li>
+
+            <li><a href="{% url 'orders:Ordenes' %}"><i class="material-icons">shopping_cart</i>Pedidos</a></li>
+            <li><div class="divider"></div></li>
+            
+            <li><a href="{% url 'logout' %}"><i class="material-icons">exit_to_app</i>Cerrar seccion</a></li>
+            <li><div class="divider"></div></li><br><br><br><br><br><br><br><br><br><br>
+            <di class="row">
+                <li><a href="#"><i class="material-icons">face</i>{{user.username | upper}}</a></li>
+            </di>
+            
+            
+        </ul>
+
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                M.AutoInit();
+            });
+        </script>
+    
+</body>
+</html>

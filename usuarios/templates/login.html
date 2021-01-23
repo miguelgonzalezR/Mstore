@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+</head>
+<style>
+    img{
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+  }
+  
+  .materialert{
+      position: relative;
+      min-width: 150px;
+      padding: 15px;
+      margin-bottom: 20px;
+      margin-top: 15px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: all 0.1s linear;
+      webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+  }
+  .materialert .material-icons{
+      margin-right: 10px;
+  }
+  .materialert .close-alert{
+      -webkit-appearance: none;
+      border: 0;
+      cursor: pointer;
+      color: inherit;
+      background: 0 0;
+      font-size: 22px;
+      line-height: 1;
+      font-weight: bold;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .7);
+      filter: alpha(opacity=40);
+      margin-bottom: -5px;
+      position: absolute;
+      top: 16px;
+      right: 5px;
+  }
+  .materialert.info{
+      background-color: #e50303;
+      color: #fff;
+  }
+  .materialert.success{
+      background-color: #43a047;
+      color: #fff;
+  }
+  .materialert.error{
+      background-color: #c62828;
+      color: #fff;
+  }
+  .materialert.danger{
+      background-color: #c62828;
+      color: #fff;
+  }
+  .materialert.warning{
+      background-color: #fbc02d;
+      color: #fff;
+  }
+  </style>
+<body>
+
+    <div class="navbar-fixed">
+        <nav class="black">
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo"><i class="material-icons">dashboard</i></a>
+            </div>
+        </nav>
+    </div>
+    <h3 class="center-align">Iniciar sesión</h3>
+
+    <div class="container">
+        <div class="row">
+            <form method="post">
+                {% csrf_token %}
+                {% if messages %}
+                    {% for message in messages%}
+                        <div class="materialert warning">
+                            <div class="material-icons">info_outline</div>
+                                Advertencia: {{message}}
+                            </div>
+                    {% endfor %}
+                {% endif %}
+                <!--{% if form.error_messages.invalid_login %}
+                        
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">
+                                    &times;
+                                </span>
+                            </button>
+                            <strong>Advertencia: </strong> {{form.get_invalid_login_error}}
+                        </div><br>
+                        
+                    {% endif %}-->
+                <div class="input-field col s12 m6  offset-m3">
+                    
+                        <i class="material-icons prefix">person_pin</i>
+                        {{ form.username }}
+                        <label for="alias">Usuario</label><br><br>
+                </div>
+                <div class="input-field col s12 m6 offset-m3">
+                    <i class="material-icons prefix">security</i>
+                    {{ form.password }}
+                    <label for="clave">Contraseña</label><br><br><br><br>
+                </div>
+                <div class="col s12 center-align">
+                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Ingresar"><i class="material-icons">send</i></button>
+                </div>
+            </form>
+        </div><br>
+       <div class="col s12 center-align">
+        <h5 class="center">Olividaste tu contraseña</h5>
+        <a href="{% url 'password_reset'%}" class="btn waves-effect blue tooltipped" data-tooltip="Recuperar contraseña"><i class="material-icons">security</i></a>
+       </div>
+    </div><br><br><br>
+    
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                M.AutoInit();
+            });
+        </script>
+</body>
+</html>

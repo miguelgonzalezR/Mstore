@@ -1,0 +1,61 @@
+.imagen{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.texto{
+    position:  absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.tipo{
+font-family: sans-serif;
+}
+
+.contenedorx{
+    width: 100%;
+    min-height: 100vh;
+}
+
+.margen{
+    margin: 30px;
+}
+.margen2{
+   margin-top: 4%;
+}
+.margen3{
+    margin-top: 90%;
+    margin-right: 10%;
+ }
+ .margen4{
+    margin-top: 10%;
+
+ }
+
+ .hola{
+     height: 40%;
+     width: 50%;
+ }
+ body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+header,main,footer{
+    padding-left: 300px;
+}
+
+
+@media only screen and (max-width : 992px){
+    header, main , footer{
+        padding-left: 0;
+    }
+}

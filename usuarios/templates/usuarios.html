@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    {% include "menu.html" %}
+    <div class="center">
+        <h3>Usuarios</h3>
+    </div>
+
+    <div class="row">
+        <div class="col l11 offset-l2">
+
+            <div class="input-field col s6 m4">
+                <i class="material-icons prefix">search</i>
+                <input id="buscar" type="text" name="busqueda"/>
+                <label for="buscar">Buscador</label>
+            </div>
+
+            <div class="input-field col s6 m4">
+                <button type="submit" class="btn waves-effect green tooltipped" data-tooltip="Buscar"><i class="material-icons">check_circle</i></button>
+            </div>
+
+            <div class="input-field  col s12 m4">
+                <a href="{% url 'usuarios:agrus'%}" class="btn waves-effect indigo tooltipped" data-tooltip="Agregar"><i class="material-icons">add_circle</i></a>
+            </div>
+        </div>
+        
+    </div>
+    
+    <center>
+        <div class="container">
+            <table class="striped">
+                <thead>
+                  <tr>
+                      <th>Username</th>
+                      <th>Correo</th>
+                      <th>Nombres</th>
+                      <th>Apellidos</th>
+                      <th>Acciones</th>
+                  </tr>
+                </thead>
+        
+                <tbody>
+                {% for usuario in object_list %}
+                  <tr>
+                    <td>{{usuario.username}}</td>
+                    <td>{{usuario.email}}</td>
+                    <td>{{usuario.nombres}}</td>
+                    <td>{{usuario.apellidos}}</td>
+                    <td>
+                        <a href="{% url 'usuarios:ediu' usuario.pk %}" class="btn waves-effect blue tooltipped modal-close" data-tooltip="Editar"><i class="material-icons">mode_edit</i></a>
+                        <a href="{% url 'usuarios:elus' usuario.pk %}" class="btn waves-effect red tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+        </div>
+
+    </center>
+
+
+    <div id="modal-update" class="modal">
+        <div class="modal-content">
+            <h4 class="center-align">Editar categoría</h4>
+            <form method="post" id="form-create" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">note_add</i>
+                        <input id="create_nombre" type="text" name="create_nombre" class="validate" required/>
+                        <label for="create_nombre">Nombre</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">description</i>
+                        <input id="create_descripcion" type="text" name="create_descripcion" class="validate"/>
+                        <label for="create_descripcion">Descripción</label>
+                    </div>
+                    <div class="file-field input-field col s12 m6">
+                        <div class="btn waves-effect">
+                            <span><i class="material-icons">image</i></span>
+                            <input id="create_archivo" type="file" name="create_archivo" required/>
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input type="text" class="file-path validate" placeholder="Seleccione una imagen"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Crear"><i class="material-icons">save</i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                M.AutoInit();
+            });
+        </script>
+</body>
+</html>
